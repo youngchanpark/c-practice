@@ -4,6 +4,29 @@
 
 int main()
 {
-	printf("Hello: %s", PyArg_ParseTuple);
+	
+	PyObject *args, *pylong_int, *pylong_int_repr;
+	long int c_int = 123;
+	// long int from_py_int;
+	const char* s;
+	Py_INCREF(args);
+	printf("Reference count: %zd\n", args->ob_refcnt);
+	// printf("Reference count: %zd", args.ob_refcnt);
+
+	printf("C int: %i", 123);
+	
+	
+	pylong_int = PyLong_FromLong(c_int);
+	Py_INCREF(pylong_int);
+	pylong_int_repr = PyObject_Repr(pylong_int);
+	Py_INCREF(pylong_int_repr);
+	s = PyUnicode_AsUTF8(pylong_int_repr);
+	printf("Py int: %s", s);
+	// args = Py_BuildValue("i", 123);
+
+	// from_py_int = PyLong_AsLong(args);
+
+	// printf("%ld", from_py_int);
+
 	return 0;
 }

@@ -12,7 +12,7 @@ Q: Are the names arbitrary?
 Q2: Where do they point to?
 */
 static PyObject *
-yc_func(PyObject *self, PyObject *args)
+mysystem(PyObject *self, PyObject *args)
 {
     const char *command; // Why a constant pointer?
     int sts; // status
@@ -39,22 +39,51 @@ yc_func(PyObject *self, PyObject *args)
 }
 
 
+static PyObject *
+null_func(PyObject *self, PyObject *args)
+{
+    return NULL;
+}
+
+static PyObject *
+null_func_with_err(PyObject *self, PyObject *args)
+{
+    printf("%s", args);
+    PyErr_SetString(PyExc_BaseException, "My function errored");
+    // https://docs.python.org/3/c-api/exceptions.html?highlight=pyerr_setstring#standard-exceptions
+    return NULL;
+}
+
+
+static PyObject *
+sum_func(PyObject *self, PyObject *args)
+{   
+    int a, b, c;
+    a = PyTuple_GetItem(args, 0);
+    b = PyTuple_GetItem(args, 1);
+    c = PyTuple_GetItem(args, 2);
+    printf("a: %i, b: %i, c: %i", a, b, c);
+    return PyLong_FromLong(a + b + c);
+}
+
+
 // Add above function to method table
 static PyMethodDef YcMethods[] = {
 
-    {"system",  yc_func, METH_VARARGS,
-     "function docstring?"},
-
+    {"system",  mysystem, METH_VARARGS, "function docstring?"},
+    {"null",  null_func, METH_VARARGS, "Returns a NULL pointer"},
+    {"null_with_err",  null_func_with_err, METH_VARARGS, "Returns a NULL pointer and raises an error"},
+    {"mysum",  sum_func, METH_VARARGS, "Takes in three ints and returns sum"},
     {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
 // Add the method table to Python Module initialiser
 static struct PyModuleDef ycmodule = {
-    // PyModuleDef = Python Module Definition 
-    PyModuleDef_HEAD_INIT,
-    "yc",   /* name of module */
-    // spam_doc, /* module documentation, may be NULL */
-    NULL,
+    // PyModuleDef = Python Module Definition struct
+
+    PyModuleDef_HEAD_INIT, // m_base: Always initialize this member to PyModuleDef_HEAD_INIT.
+    "yc",   /* const char *m_name: Name for the new module. */
+    NULL, // const char *m_doc: Docstring for the module; usually a docstring variable created with PyDoc_STRVAR is used.
     -1,       /* size of per-interpreter state of the module,
                  or -1 if the module keeps state in global variables. */
     YcMethods
