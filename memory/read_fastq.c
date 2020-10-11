@@ -35,8 +35,9 @@ int main (int argc, char *argv[]){
 	}
 
 	// puts(line);
-
-	while (feof(fp)==0){
+	// TODO: Change the while loop condition based on this Stack Overflow answer
+	// https://stackoverflow.com/a/16108064
+	while (feof(fp)==0){ 
 		fgets(read.header, 200, fp);
 		fgets(read.sequence, 200, fp);
 		fgets(read.optional, 200, fp);
