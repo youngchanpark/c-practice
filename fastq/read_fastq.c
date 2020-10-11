@@ -1,15 +1,15 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include "fastq.h"
 
-// /Users/YoungChanPark/projects/deepvariant/deepvariant/third_party/nucleus/testdata/test_reads.fastq
 
-typedef struct {
-	char header[200];
-	char sequence[200];
-	char optional[200];
-	char quality[200];
-} fastq_read;
+/*
+Reads a fastq file and prints out its content
 
+Example
+-------
+$ ./a.out $example_file
+*/
 
 int main (int argc, char *argv[]){
 	FILE *fp;
@@ -22,10 +22,13 @@ int main (int argc, char *argv[]){
 	 so that it points to the first value of the character array.
 	*/
 
+	// Argument parsing
 	if (argc < 2 || argc > 2) {
 		printf("Must give one argument.\n");
 		exit(1);
 	}
+
+
 	printf("File: %s\n", argv[1]);
 	fp = fopen(argv[1], "r");
 
