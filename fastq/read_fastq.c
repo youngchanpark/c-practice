@@ -13,7 +13,7 @@ $ ./a.out $example_file
 
 int main (int argc, char *argv[]){
 	FILE *fp;
-	fastq_read read;
+	fastq_read read; // This struct is in "fastq.h"
 	// char line[200];
 	// char *line_pointer = line;
 	/*
