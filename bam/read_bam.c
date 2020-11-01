@@ -4,6 +4,14 @@
 #include <htslib/sam.h>
 
 
+/*
+./a.out ./test.sorted.bam
+
+*/
+
+// uint8_t cigar_op_mask = 0x0f;   // 00001111b
+
+
 int main(int argc, char *argv[]) {
 
 
